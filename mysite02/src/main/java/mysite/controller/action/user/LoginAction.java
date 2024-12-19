@@ -5,6 +5,7 @@ import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import mysite.controller.ActionServlet.Action;
 import mysite.dao.UserDao;
 import mysite.vo.UserVo;
@@ -33,7 +34,11 @@ public class LoginAction implements Action {
 			return;
 		} 
 		
-		// 로그인 성공
+		// 로그인 처리
+		HttpSession session = request.getSession(true); // 없으면 만들어서 줌 
+		session.setAttribute("authUser", vo);
+		
+		response.sendRedirect(request.getContextPath());
 	}
 
 }
