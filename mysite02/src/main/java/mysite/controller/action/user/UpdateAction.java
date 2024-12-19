@@ -36,9 +36,9 @@ public class UpdateAction implements Action {
 		vo.setPassword(request.getParameter("password"));
 		
 		new UserDao().update(vo);
+		authUser.setName(vo.getName());
 		
-		request.getRequestDispatcher("/WEB-INF/views/main/index.jsp").forward(request, response);
-		
+		response.sendRedirect(request.getContextPath()+"/user");
 	}
 
 }
