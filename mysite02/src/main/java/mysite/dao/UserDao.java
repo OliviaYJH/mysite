@@ -68,4 +68,64 @@ public class UserDao {
 
 		return userVo;
 	}
+
+	public UserVo findById(Long userId) {
+		UserVo userVo = null;
+
+		try (Connection conn = getConnection();
+				PreparedStatement pstmt = conn
+						.prepareStatement("select id, name, email, password, gender from user where id = ?");) {
+			pstmt.setLong(1, userId);
+
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				Long id = rs.getLong(1);
+				String name = rs.getString(2);
+				String email = rs.getString(3);
+				String password = rs.getString(4);
+				String gender = rs.getString(5);
+				
+				userVo = new UserVo();
+				userVo.setId(id);
+				userVo.setName(name);
+				userVo.setEmail(email);
+				userVo.setPassword(password);
+				userVo.setGender(gender);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.out.println("error: " + e);
+		}
+
+		return userVo;
+	}
+
+	public void update(UserVo vo) {
+		// password 입력 안되면 이름, 성별만 수정,
+		// password 입력 되면 이름, 패스워드, 성별 모두 수정 
+		try (Connection conn = getConnection();
+				PreparedStatement pstmt = conn
+						.prepareStatement("update user set name = ?, gender = ? where id = ?;");
+				PreparedStatement pstmt2 = conn
+						.prepareStatement("update user set name = ?, gender = ?, password = ? where id = ?;");
+				) {
+			
+			if(vo.getPassword().isEmpty()) {
+				pstmt.setString(1, vo.getName());
+				pstmt.setString(2, vo.getGender());
+				pstmt.setLong(3, vo.getId());
+				
+				pstmt.executeUpdate();
+			} else {
+				pstmt2.setString(1, vo.getName());
+				pstmt2.setString(2, vo.getGender());
+				pstmt2.setString(3, vo.getPassword());
+				pstmt2.setLong(4, vo.getId());
+				
+				pstmt2.executeUpdate();
+			}
+		} catch (SQLException e) {
+			System.out.println("error: " + e);
+		}
+	}
 }
