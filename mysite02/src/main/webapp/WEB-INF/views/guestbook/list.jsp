@@ -1,16 +1,17 @@
+<%@ taglib uri="jakarta.tags.core" prefix="c"%>
+<%@ taglib uri="jakarta.tags.fmt" prefix="fmt"%>
+<%@ taglib uri="jakarta.tags.functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.List"%>
 <%@ page import="mysite.vo.GuestbookVo"%>
-<%
-List<GuestbookVo> list = (List<GuestbookVo>) request.getAttribute("list");
-%>
+<%pageContext.setAttribute("newLine", "\n"); %>
 <!DOCTYPE html>
 <html>
 <head>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<link href="<%=request.getContextPath()%>/assets/css/guestbook.css"
+<link href="${pageContext.request.contextPath }/assets/css/guestbook.css"
 	rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -18,7 +19,7 @@ List<GuestbookVo> list = (List<GuestbookVo>) request.getAttribute("list");
 		<jsp:include page="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="guestbook">
-				<form action="<%=request.getContextPath()%>/guestbook" method="post">
+				<form action="${pageContext.request.contextPath }/guestbook" method="post">
 					<input type="hidden" name="a" value="insert">
 					<table>
 						<tr>
@@ -35,28 +36,26 @@ List<GuestbookVo> list = (List<GuestbookVo>) request.getAttribute("list");
 						</tr>
 					</table>
 				</form>
-				<%
-				int count = list.size();
-				for (GuestbookVo vo : list) {
-				%>
 				<ul>
+					<c:set var="count" value="${fn:length(list) }"/>
+					<c:forEach items="${list }" var="vo" varStatus="status">
 					<li>
 						<table>
 							<tr>
-								<td>[<%=count--%>]
+								<td>[${count - status.index }]
 								</td>
-								<td><%=vo.getName()%></td>
-								<td><%=vo.getRegDate()%></td>
+								<td>${vo.name }</td>
+								<td>${vo.regDate }</td>
 								<td><a
-									href="<%=request.getContextPath()%>/guestbook?a=deleteform&id=<%=vo.getId()%>">삭제</a></td>
+									href="${pageContext.request.contextPath }/guestbook?a=deleteform&id=${vo.id }">삭제</a></td>
 							</tr>
 							<tr>
-								<td colspan=4><%=vo.getContents().replaceAll("\n", "<br>")%></td>
+								<td colspan=4>${fn:replace(vo.contents, newLine, "<br>") }</td>
 							</tr>
-						</table> <%
- }
- %> <br>
+						</table>
+						 <br>
 					</li>
+					</c:forEach>
 				</ul>
 			</div>
 		</div>
