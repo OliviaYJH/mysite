@@ -9,6 +9,7 @@ import mysite.controller.action.board.BoardModifyAction;
 import mysite.controller.action.board.BoardModifyFormAction;
 import mysite.controller.action.board.BoardReplyAction;
 import mysite.controller.action.board.BoardReplyFormAction;
+import mysite.controller.action.board.BoardSearchAction;
 import mysite.controller.action.board.BoardViewAction;
 import mysite.controller.action.board.BoardWriteAction;
 import mysite.controller.action.board.BoardWriteFormAction;
@@ -25,7 +26,8 @@ public class BoardServlet extends ActionServlet {
 			"writeform", new BoardWriteFormAction(),
 			"write", new BoardWriteAction(),
 			"replyform", new BoardReplyFormAction(),
-			"reply", new BoardReplyAction()
+			"reply", new BoardReplyAction(),
+			"search", new BoardSearchAction()
 	);
 
 	@Override

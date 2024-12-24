@@ -15,7 +15,7 @@ public class BoardViewAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Long id = Long.parseLong(request.getParameter("id"));
 		BoardVo vo = new BoardDao().findById(id);
-		new BoardDao().updatesHitById(id);
+		new BoardDao().updateHitById(id);
 	
 		request.setAttribute("vo", vo);
 		request.getRequestDispatcher("/WEB-INF/views/board/view.jsp").forward(request, response);

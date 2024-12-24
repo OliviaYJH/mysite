@@ -18,8 +18,9 @@
 			<div id="board">
 				<form id="search_form"
 					action="${pageContext.request.contextPath }/board" method="post">
-					<input type="text" id="kwd" name="kwd" value=""> <input
-						type="submit" value="찾기">
+					<input type = "hidden" name = "a" value="search">
+					<input type="text" id="kwd" name="kwd" value="${keyword }"> 
+					<input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
 					<tr>
@@ -39,8 +40,8 @@
 								<c:if test='${vo.depth > 0 }'>
 									<img
 										src="${pageContext.request.contextPath }/assets/images/reply.png">
-								</c:if> <a
-								href="${pageContext.request.contextPath }/board?a=view&id=${vo.id}">${vo.title }</a>
+								</c:if> 
+								<a href="${pageContext.request.contextPath }/board?a=view&id=${vo.id}">${vo.title }</a>
 							</td>
 							<td>${vo.userName }</td>
 							<td>${vo.hit }</td>
@@ -74,7 +75,7 @@
 											href="${pageContext.request.contextPath }/board?pageNo=${pageNo-1}">◀</a></li>
 									</c:when>
 									<c:otherwise>
-										<li><a href="">◀</a></li>
+										<li>◀</li>
 									</c:otherwise>
 								</c:choose>
 
@@ -101,7 +102,7 @@
 											href="${pageContext.request.contextPath }/board?pageNo=${pageNo+1}">▶</a></li>
 									</c:when>
 									<c:otherwise>
-										<li><a href="">▶</a></li>
+										<li>▶</li>
 									</c:otherwise>
 								</c:choose>
 

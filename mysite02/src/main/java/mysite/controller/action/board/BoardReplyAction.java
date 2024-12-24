@@ -14,6 +14,7 @@ public class BoardReplyAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Long boardId = Long.parseLong(request.getParameter("boardId"));
+		Long userId = Long.parseLong(request.getParameter("userId"));
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		
@@ -22,6 +23,7 @@ public class BoardReplyAction implements Action {
 		new BoardDao().updateBygNoAndoNo(vo.getgNo(), vo.getoNo());
 		vo.setTitle(title);
 		vo.setContents(content);
+		vo.setUserId(userId);
 		new BoardDao().insertReply(vo);
 
 		response.sendRedirect(request.getContextPath() + "/board");

@@ -53,19 +53,46 @@ public class BoardDao {
 		return result;
 	}
 
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
+	public List<BoardVo> findAllByKeyword(int pageNo, int pageSize, String keyword) {
+		List<BoardVo> result = new ArrayList<>();
 
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
+		try (Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(
+						"select b.id, u.id, b.title, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s'), b.depth, u.name"
+						+ " from board b, user u where u.id = b.user_id and b.title like ?"
+						+ "	order by b.g_no desc, b.o_no asc limit ?, ?;");) {
+			pstmt.setString(1, "%" + keyword + "%");
+			pstmt.setInt(2, (pageNo - 1) * pageSize);
+			pstmt.setInt(3, pageSize);
 
-			String url = "jdbc:mariadb://192.168.64.7:3306/webdb";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패: " + e);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Long boardId = rs.getLong(1);
+				Long userId = rs.getLong(2);
+				String title = rs.getString(3);
+				int hit = rs.getInt(4);
+				String regDate = rs.getString(5);
+				int depth = rs.getInt(6);
+				String name = rs.getString(7);
+
+				BoardVo vo = new BoardVo();
+				vo.setId(boardId);
+				vo.setUserId(userId);
+				vo.setTitle(title);
+				vo.setHit(hit);
+				vo.setRegDate(regDate);
+				vo.setDepth(depth);
+				vo.setUserName(name);
+
+				result.add(vo);
+
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
 		}
 
-		return conn;
+		return result;
 	}
 
 	public BoardVo findById(Long id) {
@@ -101,48 +128,6 @@ public class BoardDao {
 		}
 
 		return vo;
-	}
-
-	public void updatesHitById(Long id) {
-		try (Connection conn = getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("update board set hit = hit + 1 where id = ?;");) {
-
-			pstmt.setLong(1, id);
-			pstmt.executeUpdate();
-
-		} catch (SQLException e) {
-			System.out.println("드라이버 로딩 실패: " + e);
-		}
-	}
-
-	public void updateByBoardId(BoardVo vo) {
-		try (Connection conn = getConnection();
-				PreparedStatement pstmt = conn
-						.prepareStatement("update board set title = ?, contents = ? where id = ?;");) {
-
-			pstmt.setString(1, vo.getTitle());
-			pstmt.setString(2, vo.getContents());
-			pstmt.setLong(3, vo.getId());
-			pstmt.executeUpdate();
-
-		} catch (SQLException e) {
-			System.out.println("드라이버 로딩 실패: " + e);
-		}
-
-	}
-
-	public int deleteByBoardId(Long boardId) {
-		int count = 0;
-		try (Connection conn = getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("delete from board where id = ?;");) {
-			pstmt.setLong(1, boardId);
-
-			count = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("error: " + e);
-		}
-
-		return count;
 	}
 
 	public int insertNew(BoardVo vo) {
@@ -192,6 +177,34 @@ public class BoardDao {
 		return count;
 	}
 
+	public void updateHitById(Long id) {
+		try (Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("update board set hit = hit + 1 where id = ?;");) {
+
+			pstmt.setLong(1, id);
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("드라이버 로딩 실패: " + e);
+		}
+	}
+
+	public void updateByBoardId(BoardVo vo) {
+		try (Connection conn = getConnection();
+				PreparedStatement pstmt = conn
+						.prepareStatement("update board set title = ?, contents = ? where id = ?;");) {
+
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContents());
+			pstmt.setLong(3, vo.getId());
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("드라이버 로딩 실패: " + e);
+		}
+
+	}
+
 	public void updateBygNoAndoNo(int gNo, int oNo) {
 		try (Connection conn = getConnection();
 				PreparedStatement pstmt = conn
@@ -207,12 +220,45 @@ public class BoardDao {
 		}
 	}
 
+	public int deleteByBoardId(Long boardId) {
+		int count = 0;
+		try (Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("delete from board where id = ?;");) {
+			pstmt.setLong(1, boardId);
+
+			count = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("error: " + e);
+		}
+
+		return count;
+	}
+
 	public int findEndPage(int pageSize) {
 		int result = 0;
 
 		try (Connection conn = getConnection();
 				PreparedStatement pstmt = conn.prepareStatement("select ceil(count(*)/?) from board;")) {
 			pstmt.setInt(1, pageSize);
+
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+				result = rs.getInt(1);
+		} catch (SQLException e) {
+			System.out.println("error: " + e);
+		}
+
+		return result;
+	}
+
+	public int findEndPageByKeyword(String keyword, int pageSize) {
+		int result = 0;
+
+		try (Connection conn = getConnection();
+				PreparedStatement pstmt = conn
+						.prepareStatement("select ceil(count(*)/?) from board where title like ?;")) {
+			pstmt.setInt(1, pageSize);
+			pstmt.setString(2, "%" + keyword + "%");
 
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next())
@@ -237,6 +283,38 @@ public class BoardDao {
 		}
 
 		return result;
+	}
+
+	public int findBoardCountByKeyword(String keyword) {
+		int result = 0;
+
+		try (Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("select count(*) from board where title like ?;")) {
+			pstmt.setString(1, "%" + keyword + "%");
+
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+				result = rs.getInt(1);
+		} catch (SQLException e) {
+			System.out.println("error: " + e);
+		}
+
+		return result;
+	}
+
+	private Connection getConnection() throws SQLException {
+		Connection conn = null;
+
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+
+			String url = "jdbc:mariadb://192.168.64.7:3306/webdb";
+			conn = DriverManager.getConnection(url, "webdb", "webdb");
+		} catch (ClassNotFoundException e) {
+			System.out.println("드라이버 로딩 실패: " + e);
+		}
+
+		return conn;
 	}
 
 }

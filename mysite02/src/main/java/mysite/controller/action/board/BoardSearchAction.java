@@ -10,39 +10,42 @@ import mysite.controller.ActionServlet.Action;
 import mysite.dao.BoardDao;
 import mysite.vo.BoardVo;
 
-public class BoardListAction implements Action {
-	public final static int pageSize = 3;
+public class BoardSearchAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String no = request.getParameter("pageNo");
-		if (no == null) no = "1";
+		if (no == null)
+			no = "1";
 		int pageNo = Integer.parseInt(no);
+		String keyword = request.getParameter("kwd");
 
-		List<BoardVo> list = new BoardDao().findAll(pageNo, pageSize);
+//		System.out.println("pageNo: " + pageNo + ", keyword: " + keyword);
+
+		List<BoardVo> list = new BoardDao().findAllByKeyword(pageNo, BoardListAction.pageSize, keyword);
 		request.setAttribute("list", list);
+//		System.out.println("list: " + list);
 
-		// page 정보
-		int totalCount = new BoardDao().findBoardCount();
+		int totalCount = new BoardDao().findBoardCountByKeyword(keyword);
 		int beginPage = 1;
-		int endPage = new BoardDao().findEndPage(pageSize);
+		int endPage = new BoardDao().findEndPageByKeyword(keyword, BoardListAction.pageSize);
 
 		int prevPage = pageNo - 2;
 		prevPage = Math.max(prevPage, beginPage);
 
 		int nextPage = pageNo + 2;
-		if (pageNo + 2 < endPage) nextPage = 5;
+		if (pageNo + 2 < endPage)
+			nextPage = 5;
 		nextPage = Math.min(nextPage, endPage);
 
 		request.setAttribute("totalCount", totalCount);
-		request.setAttribute("pageSize", pageSize);
+		request.setAttribute("pageSize", BoardListAction.pageSize);
 		request.setAttribute("pageNo", pageNo);
 		request.setAttribute("beginPage", beginPage);
 		request.setAttribute("endPage", endPage);
 		request.setAttribute("prevPage", prevPage);
 		request.setAttribute("nextPage", nextPage);
-
-//		System.out.println("pageNo: " + pageNo + ", beginPage: " + beginPage + ", endPage: " + endPage + ", prevPage: " + prevPage + ", nextPage: " + nextPage);
+		request.setAttribute("keyword", keyword);
 
 		request.getRequestDispatcher("/WEB-INF/views/board/list.jsp").forward(request, response);
 	}
