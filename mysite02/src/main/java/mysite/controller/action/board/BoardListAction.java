@@ -14,7 +14,9 @@ public class BoardListAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+		String no = request.getParameter("pageNo");
+		if(no == null) no = "1";
+		int pageNo = Integer.parseInt(no);
 
 		// 파라미터
 		int pageSize = 3;
