@@ -11,7 +11,7 @@ import java.util.List;
 import mysite.vo.BoardVo;
 
 public class BoardDao {
-	public List<BoardVo> findAll(String pageNo, int pageSize) {
+	public List<BoardVo> findAll(int pageNo, int pageSize) {
 		List<BoardVo> result = new ArrayList<>();
 
 		try (Connection conn = getConnection();
@@ -20,7 +20,7 @@ public class BoardDao {
 								+ " from board b, user u where u.id = b.user_id"
 								+ " order by b.g_no desc, b.o_no asc limit ?, ?;");) {
 
-			pstmt.setInt(1, (Integer.parseInt(pageNo) - 1) * pageSize);
+			pstmt.setInt(1, (pageNo - 1) * pageSize);
 			pstmt.setInt(2, pageSize);
 
 			ResultSet rs = pstmt.executeQuery();
@@ -72,8 +72,9 @@ public class BoardDao {
 		BoardVo vo = new BoardVo();
 
 		try (Connection conn = getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("select b.id, b.title, b.contents, u.id, b.g_no, b.o_no, b.depth"
-						+ " from board b, user u" + " where b.user_id = u.id and b.id = ?;");) {
+				PreparedStatement pstmt = conn
+						.prepareStatement("select b.id, b.title, b.contents, u.id, b.g_no, b.o_no, b.depth"
+								+ " from board b, user u" + " where b.user_id = u.id and b.id = ?;");) {
 			pstmt.setLong(1, id);
 			ResultSet rs = pstmt.executeQuery();
 
@@ -182,7 +183,7 @@ public class BoardDao {
 			pstmt.setInt(4, vo.getoNo() + 1);
 			pstmt.setInt(5, vo.getDepth() + 1);
 			pstmt.setLong(6, vo.getUserId());
-			
+
 			count = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("error: " + e);
@@ -198,12 +199,44 @@ public class BoardDao {
 			pstmt.setInt(1, gNo);
 			pstmt.setInt(2, oNo + 1);
 			System.out.println("gNo: " + gNo + ", oNo: " + oNo);
-			
+
 			pstmt.executeUpdate();
 
 		} catch (SQLException e) {
 			System.out.println("드라이버 로딩 실패: " + e);
 		}
+	}
+
+	public int findEndPage(int pageSize) {
+		int result = 0;
+
+		try (Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("select ceil(count(*)/?) from board;")) {
+			pstmt.setInt(1, pageSize);
+
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+				result = rs.getInt(1);
+		} catch (SQLException e) {
+			System.out.println("error: " + e);
+		}
+
+		return result;
+	}
+
+	public int findBoardCount() {
+		int result = 0;
+
+		try (Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("select count(*) from board;")) {
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+				result = rs.getInt(1);
+		} catch (SQLException e) {
+			System.out.println("error: " + e);
+		}
+
+		return result;
 	}
 
 }
