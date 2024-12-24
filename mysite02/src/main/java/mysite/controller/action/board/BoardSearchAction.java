@@ -20,11 +20,8 @@ public class BoardSearchAction implements Action {
 		int pageNo = Integer.parseInt(no);
 		String keyword = request.getParameter("kwd");
 
-//		System.out.println("pageNo: " + pageNo + ", keyword: " + keyword);
-
 		List<BoardVo> list = new BoardDao().findAllByKeyword(pageNo, BoardListAction.pageSize, keyword);
 		request.setAttribute("list", list);
-//		System.out.println("list: " + list);
 
 		int totalCount = new BoardDao().findBoardCountByKeyword(keyword);
 		int beginPage = 1;

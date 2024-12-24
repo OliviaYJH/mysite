@@ -31,8 +31,7 @@
 						<th>작성일</th>
 						<th>&nbsp;</th>
 					</tr>
-					<c:set var="count" value="${totalCount }" />
-					<!--  ${page.totalCount} -->
+					<c:set var="count" value="${totalCount }" />		
 					<c:forEach items="${list }" var="vo" varStatus="status">
 						<tr>
 							<td>${count - (pageNo - 1) * pageSize - status.index }</td>
@@ -71,8 +70,14 @@
 							<c:otherwise>
 								<c:choose>
 									<c:when test="${pageNo-1 >= beginPage }">
-										<li><a
-											href="${pageContext.request.contextPath }/board?pageNo=${pageNo-1}">◀</a></li>
+										<c:choose>
+											<c:when test="${empty keyword }">
+												<li><a href="${pageContext.request.contextPath }/board?pageNo=${pageNo-1}">◀</a></li>
+											</c:when>
+											<c:otherwise>
+												<li><a href="${pageContext.request.contextPath }/board?a=search&pageNo=${pageNo-1}&kwd=${keyword}">◀</a></li>
+											</c:otherwise>
+										</c:choose>
 									</c:when>
 									<c:otherwise>
 										<li>◀</li>
@@ -89,8 +94,14 @@
 											<li>${no }</li>
 										</c:when>
 										<c:otherwise>
-											<li><a
-												href="${pageContext.request.contextPath }/board?pageNo=${no}">${no }</a></li>
+											<c:choose>
+												<c:when test="${empty keyword }">
+													<li><a href="${pageContext.request.contextPath }/board?pageNo=${no}">${no }</a></li>
+												</c:when>
+												<c:otherwise>
+													<li><a href="${pageContext.request.contextPath }/board?a=search&pageNo=${no}&kwd=${keyword}">${no }</a></li>
+												</c:otherwise>
+											</c:choose>
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>
@@ -98,8 +109,14 @@
 
 								<c:choose>
 									<c:when test="${pageNo + 1 <= endPage }">
-										<li><a
-											href="${pageContext.request.contextPath }/board?pageNo=${pageNo+1}">▶</a></li>
+										<c:choose>
+											<c:when test="${empty keyword }">
+												<li><a href="${pageContext.request.contextPath }/board?pageNo=${pageNo+1}">▶</a></li>
+											</c:when>
+											<c:otherwise>
+												<li><a href="${pageContext.request.contextPath }/board?a=search&pageNo=${pageNo+1}&kwd=${keyword}">▶</a></li>
+											</c:otherwise>
+										</c:choose>
 									</c:when>
 									<c:otherwise>
 										<li>▶</li>
