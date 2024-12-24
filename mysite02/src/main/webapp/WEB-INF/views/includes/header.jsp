@@ -3,10 +3,6 @@
 <%@ taglib uri="jakarta.tags.functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="mysite.vo.UserVo"%>
-<%
-UserVo authUser = (UserVo) session.getAttribute("authUser");
-%>
 <div id="header">
 	<!-- 모든 Header 부분을 header.jsp로 만들고 import 시키기 -->
 	<h1>MySite</h1>
