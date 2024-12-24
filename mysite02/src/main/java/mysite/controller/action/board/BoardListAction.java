@@ -11,7 +11,7 @@ import mysite.dao.BoardDao;
 import mysite.vo.BoardVo;
 
 public class BoardListAction implements Action {
-	public final static int pageSize = 3;
+	public final static int pageSize = 5;
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
