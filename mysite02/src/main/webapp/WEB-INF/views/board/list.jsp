@@ -18,9 +18,9 @@
 			<div id="board">
 				<form id="search_form"
 					action="${pageContext.request.contextPath }/board" method="post">
-					<input type = "hidden" name = "a" value="search">
-					<input type="text" id="kwd" name="kwd" value="${keyword }"> 
-					<input type="submit" value="찾기">
+					<input type="hidden" name="a" value="search"> <input
+						type="text" id="kwd" name="kwd" value="${keyword }"> <input
+						type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
 					<tr>
@@ -31,7 +31,7 @@
 						<th>작성일</th>
 						<th>&nbsp;</th>
 					</tr>
-					<c:set var="count" value="${totalCount }" />		
+					<c:set var="count" value="${totalCount }" />
 					<c:forEach items="${list }" var="vo" varStatus="status">
 						<tr>
 							<td>${count - (pageNo - 1) * pageSize - status.index }</td>
@@ -39,8 +39,8 @@
 								<c:if test='${vo.depth > 0 }'>
 									<img
 										src="${pageContext.request.contextPath }/assets/images/reply.png">
-								</c:if> 
-								<a href="${pageContext.request.contextPath }/board?a=view&id=${vo.id}">${vo.title }</a>
+								</c:if> <a
+								href="${pageContext.request.contextPath }/board?a=view&id=${vo.id}">${vo.title }</a>
 							</td>
 							<td>${vo.userName }</td>
 							<td>${vo.hit }</td>
@@ -64,65 +64,61 @@
 					<!-- prevPage부터 nextPage까지 for문 돌려 표시. 이때 pageNo와 동일하면 selected -->
 					<ul>
 						<c:choose>
-							<c:when test="${nextPage > endPage }">
-							</c:when>
-
-							<c:otherwise>
+							<c:when test="${pageNo-1 >= beginPage }">
 								<c:choose>
-									<c:when test="${pageNo-1 >= beginPage }">
-										<c:choose>
-											<c:when test="${empty keyword }">
-												<li><a href="${pageContext.request.contextPath }/board?pageNo=${pageNo-1}">◀</a></li>
-											</c:when>
-											<c:otherwise>
-												<li><a href="${pageContext.request.contextPath }/board?a=search&pageNo=${pageNo-1}&kwd=${keyword}">◀</a></li>
-											</c:otherwise>
-										</c:choose>
+									<c:when test="${empty keyword }">
+										<li><a
+											href="${pageContext.request.contextPath }/board?pageNo=${pageNo-1}">◀</a></li>
 									</c:when>
 									<c:otherwise>
-										<li>◀</li>
+										<li><a
+											href="${pageContext.request.contextPath }/board?a=search&pageNo=${pageNo-1}&kwd=${keyword}">◀</a></li>
 									</c:otherwise>
 								</c:choose>
+							</c:when>
+							<c:otherwise>
+								<li>◀</li>
+							</c:otherwise>
+						</c:choose>
 
 
-								<c:forEach var="no" begin="${prevPage }" end="${prevPage + 4 }">
+						<c:forEach var="no" begin="${prevPage }" end="${prevPage + 4 }">
+							<c:choose>
+								<c:when test='${pageNo == no }'>
+									<li class="selected">${no }</li>
+								</c:when>
+								<c:when test='${no > nextPage }'>
+									<li>${no }</li>
+								</c:when>
+								<c:otherwise>
 									<c:choose>
-										<c:when test='${pageNo == no }'>
-											<li class="selected">${no }</li>
-										</c:when>
-										<c:when test='${no > nextPage }'>
-											<li>${no }</li>
+										<c:when test="${empty keyword }">
+											<li><a href="${pageContext.request.contextPath }/board?pageNo=${no }">${no }</a></li>
 										</c:when>
 										<c:otherwise>
-											<c:choose>
-												<c:when test="${empty keyword }">
-													<li><a href="${pageContext.request.contextPath }/board?pageNo=${no}">${no }</a></li>
-												</c:when>
-												<c:otherwise>
-													<li><a href="${pageContext.request.contextPath }/board?a=search&pageNo=${no}&kwd=${keyword}">${no }</a></li>
-												</c:otherwise>
-											</c:choose>
+											<li><a href="${pageContext.request.contextPath }/board?a=search&pageNo=${no}&kwd=${keyword}">${no }</a></li>
 										</c:otherwise>
 									</c:choose>
-								</c:forEach>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
 
 
+						<c:choose>
+							<c:when test="${pageNo + 1 <= endPage }">
 								<c:choose>
-									<c:when test="${pageNo + 1 <= endPage }">
-										<c:choose>
-											<c:when test="${empty keyword }">
-												<li><a href="${pageContext.request.contextPath }/board?pageNo=${pageNo+1}">▶</a></li>
-											</c:when>
-											<c:otherwise>
-												<li><a href="${pageContext.request.contextPath }/board?a=search&pageNo=${pageNo+1}&kwd=${keyword}">▶</a></li>
-											</c:otherwise>
-										</c:choose>
+									<c:when test="${empty keyword }">
+										<li><a
+											href="${pageContext.request.contextPath }/board?pageNo=${pageNo+1}">▶</a></li>
 									</c:when>
 									<c:otherwise>
-										<li>▶</li>
+										<li><a
+											href="${pageContext.request.contextPath }/board?a=search&pageNo=${pageNo+1}&kwd=${keyword}">▶</a></li>
 									</c:otherwise>
 								</c:choose>
-
+							</c:when>
+							<c:otherwise>
+								<li>▶</li>
 							</c:otherwise>
 						</c:choose>
 

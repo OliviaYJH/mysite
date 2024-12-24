@@ -34,7 +34,10 @@
 				</table>
 				<div class="bottom">
 					<a href="${pageContext.request.contextPath }/board?pageNo=1">글목록</a> 
-					<a href="${pageContext.request.contextPath }/board?a=replyform&boardId=${vo.id}">답글</a> 
+					<c:if test="${not empty authUser}">
+						<a href="${pageContext.request.contextPath }/board?a=replyform&boardId=${vo.id}">답글</a> 
+					</c:if>
+					
 					<!-- 내가 쓴 글일때만 가능  -->
 					<c:if test='${vo.userId == authUser.id }'>
 						<a href="${pageContext.request.contextPath }/board?a=modifyform&boardId=${vo.id}">글수정</a>
