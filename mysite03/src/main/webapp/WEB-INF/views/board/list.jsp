@@ -18,9 +18,9 @@
 			<div id="board">
 				<form id="search_form"
 					action="${pageContext.request.contextPath }/board" method="post">
-					<input type="hidden" name="a" value="search"> <input
-						type="text" id="kwd" name="kwd" value="${keyword }"> <input
-						type="submit" value="찾기">
+					<input type="hidden" name="a" value="search"> 
+					<input type="text" id="kwd" name="kwd" value="${keyword }"> 
+					<input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
 					<tr>
@@ -68,11 +68,11 @@
 								<c:choose>
 									<c:when test="${empty keyword }">
 										<li><a
-											href="${pageContext.request.contextPath }/board?pageNo=${pageNo-1}">◀</a></li>
+											href="${pageContext.request.contextPath }/board/${pageNo-1}">◀</a></li>
 									</c:when>
 									<c:otherwise>
 										<li><a
-											href="${pageContext.request.contextPath }/board?a=search&pageNo=${pageNo-1}&kwd=${keyword}">◀</a></li>
+											href="${pageContext.request.contextPath }/board/${pageNo-1}/${keyword}">◀</a></li>
 									</c:otherwise>
 								</c:choose>
 							</c:when>
@@ -93,10 +93,10 @@
 								<c:otherwise>
 									<c:choose>
 										<c:when test="${empty keyword }">
-											<li><a href="${pageContext.request.contextPath }/board?pageNo=${no }">${no }</a></li>
+											<li><a href="${pageContext.request.contextPath }/board/${no }">${no }</a></li>
 										</c:when>
 										<c:otherwise>
-											<li><a href="${pageContext.request.contextPath }/board?a=search&pageNo=${no}&kwd=${keyword}">${no }</a></li>
+											<li><a href="${pageContext.request.contextPath }/board/${no}/${keyword}">${no }</a></li>
 										</c:otherwise>
 									</c:choose>
 								</c:otherwise>
@@ -109,11 +109,11 @@
 								<c:choose>
 									<c:when test="${empty keyword }">
 										<li><a
-											href="${pageContext.request.contextPath }/board?pageNo=${pageNo+1}">▶</a></li>
+											href="${pageContext.request.contextPath }/board/${pageNo+1}">▶</a></li>
 									</c:when>
 									<c:otherwise>
 										<li><a
-											href="${pageContext.request.contextPath }/board?a=search&pageNo=${pageNo+1}&kwd=${keyword}">▶</a></li>
+											href="${pageContext.request.contextPath }/board/${pageNo+1}/${keyword}">▶</a></li>
 									</c:otherwise>
 								</c:choose>
 							</c:when>

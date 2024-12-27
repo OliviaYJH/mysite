@@ -1,14 +1,22 @@
 package mysite.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import mysite.repository.BoardRepository;
 import mysite.vo.BoardVo;
 
 @Service
 public class BoardService {
+	private BoardRepository boardRepository;
+	public final static int pageSize = 5;
+
+	public BoardService(BoardRepository boardRepository) {
+		this.boardRepository = boardRepository;
+	}
 
 	public void addContents(BoardVo vo) {
 
@@ -30,11 +38,37 @@ public class BoardService {
 
 	}
 
-	public Map<String, Object> getContentsList(int currentPage, String keyword) {
+	public Map<String, Object> getContentsList(int pageNo, String keyword) {
+		Map<String, Object> map = new HashMap<>();
 		List<BoardVo> list = null;
+		if (keyword.isBlank()) {
+			list = boardRepository.findAll(pageNo, pageSize);
+		} else {
+			list = boardRepository.findAllByKeyword(pageNo, pageSize, keyword);
+		}
+		map.put("list", list);
 
 		// view의 pagination를 위한 데이터 값 계산
+		int totalCount = boardRepository.findBoardCount();
+		int beginPage = 1;
+		int endPage = boardRepository.findEndPage(pageSize);
 
-		return null;
+		int prevPage = pageNo - 2;
+		prevPage = Math.max(prevPage, beginPage);
+
+		int nextPage = pageNo + 2;
+		if (pageNo + 2 < endPage)
+			nextPage = 5;
+		nextPage = Math.min(nextPage, endPage);
+
+		map.put("totalCount", totalCount);
+		map.put("pageSize", pageSize);
+		map.put("pageNo", pageNo);
+		map.put("beginPage", beginPage);
+		map.put("endPage", endPage);
+		map.put("prevPage", prevPage);
+		map.put("nextPage", nextPage);
+
+		return map;
 	}
 }
