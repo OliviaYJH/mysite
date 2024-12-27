@@ -14,7 +14,7 @@
 
 	<context:annotation-config />
 
-	<context:component-scan base-package="guestbook.repository">
+	<context:component-scan base-package="mysite.service, mysite.repository">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository" />
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service" />
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
