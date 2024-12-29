@@ -28,10 +28,12 @@ public class BoardSearchAction implements Action {
 		int endPage = new BoardDao().findEndPageByKeyword(keyword, BoardListAction.pageSize);
 
 		int prevPage = pageNo - 2;
+		if (pageNo + 2 >= endPage)
+			prevPage = endPage - 4;
 		prevPage = Math.max(prevPage, beginPage);
 
 		int nextPage = pageNo + 2;
-		if (pageNo + 2 < endPage)
+		if (nextPage < endPage && nextPage <= 5)
 			nextPage = 5;
 		nextPage = Math.min(nextPage, endPage);
 

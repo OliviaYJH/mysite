@@ -19,11 +19,12 @@ public class BoardService {
 	}
 
 	public void addContents(BoardVo vo) {
-
+		boardRepository.insertNew(vo);
 	}
 
 	public BoardVo getContents(Long id) { // boardId
-		return null;
+		boardRepository.updateHitById(id);
+		return boardRepository.findById(id);
 	}
 
 	public BoardVo getContents(Long id, Long userId) { // boardId, userId
@@ -31,11 +32,11 @@ public class BoardService {
 	}
 
 	public void updateContents(BoardVo vo) {
-
+		boardRepository.updateByBoardId(vo);
 	}
 
 	public void deleteContents(Long id, Long userId) { // boardId, userId
-
+		boardRepository.deleteByBoardId(id);
 	}
 
 	public Map<String, Object> getContentsList(int pageNo, String keyword) {
@@ -54,10 +55,12 @@ public class BoardService {
 		int endPage = boardRepository.findEndPage(pageSize);
 
 		int prevPage = pageNo - 2;
+		if (pageNo + 2 >= endPage)
+			prevPage = endPage - 4;
 		prevPage = Math.max(prevPage, beginPage);
 
 		int nextPage = pageNo + 2;
-		if (pageNo + 2 < endPage)
+		if (nextPage < endPage && nextPage <= 5)
 			nextPage = 5;
 		nextPage = Math.min(nextPage, endPage);
 

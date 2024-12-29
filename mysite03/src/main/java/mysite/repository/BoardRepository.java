@@ -119,7 +119,7 @@ public class BoardRepository {
 
 				vo.setId(boardId);
 				vo.setTitle(title);
-				vo.setContents(contents);
+				vo.setContent(contents);
 				vo.setUserId(userId);
 				vo.setgNo(gNo);
 				vo.setoNo(oNo);
@@ -146,7 +146,7 @@ public class BoardRepository {
 				max = rs.getInt(1);
 
 			pstmt2.setString(1, vo.getTitle());
-			pstmt2.setString(2, vo.getContents());
+			pstmt2.setString(2, vo.getContent());
 			pstmt2.setInt(3, max + 1);
 			pstmt2.setLong(4, vo.getUserId());
 
@@ -166,7 +166,7 @@ public class BoardRepository {
 				PreparedStatement pstmt = conn
 						.prepareStatement("insert board values(null, ?, ?, 0, now(), ?, ?, ?, ?);")) {
 			pstmt.setString(1, vo.getTitle());
-			pstmt.setString(2, vo.getContents());
+			pstmt.setString(2, vo.getContent());
 			pstmt.setInt(3, vo.getgNo());
 			pstmt.setInt(4, vo.getoNo() + 1);
 			pstmt.setInt(5, vo.getDepth() + 1);
@@ -198,7 +198,7 @@ public class BoardRepository {
 						.prepareStatement("update board set title = ?, contents = ? where id = ?;");) {
 
 			pstmt.setString(1, vo.getTitle());
-			pstmt.setString(2, vo.getContents());
+			pstmt.setString(2, vo.getContent());
 			pstmt.setLong(3, vo.getId());
 			pstmt.executeUpdate();
 

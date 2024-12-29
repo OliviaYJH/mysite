@@ -16,7 +16,8 @@ public class BoardListAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String no = request.getParameter("pageNo");
-		if (no == null) no = "1";
+		if (no == null)
+			no = "1";
 		int pageNo = Integer.parseInt(no);
 
 		List<BoardVo> list = new BoardDao().findAll(pageNo, pageSize);
@@ -28,10 +29,13 @@ public class BoardListAction implements Action {
 		int endPage = new BoardDao().findEndPage(pageSize);
 
 		int prevPage = pageNo - 2;
+		if (pageNo + 2 >= endPage)
+			prevPage = endPage - 4;
 		prevPage = Math.max(prevPage, beginPage);
 
 		int nextPage = pageNo + 2;
-		if (pageNo + 2 < endPage) nextPage = 5;
+		if (nextPage < endPage && nextPage <= 5)
+			nextPage = 5;
 		nextPage = Math.min(nextPage, endPage);
 
 		request.setAttribute("totalCount", totalCount);

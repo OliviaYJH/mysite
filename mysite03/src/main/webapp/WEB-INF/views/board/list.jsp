@@ -40,7 +40,7 @@
 									<img
 										src="${pageContext.request.contextPath }/assets/images/reply.png">
 								</c:if> <a
-								href="${pageContext.request.contextPath }/board?a=view&id=${vo.id}">${vo.title }</a>
+								href="${pageContext.request.contextPath }/board/view/${vo.id}">${vo.title }</a>
 							</td>
 							<td>${vo.userName }</td>
 							<td>${vo.hit }</td>
@@ -48,7 +48,7 @@
 							<c:choose>
 								<c:when test='${vo.userId == authUser.id }'>
 									<td><a
-										href="${pageContext.request.contextPath }/board?a=delete&boardId=${vo.id}"
+										href="${pageContext.request.contextPath }/board/delete/${vo.id}"
 										class="del">삭제</a></td>
 								</c:when>
 								<c:otherwise>
@@ -128,7 +128,7 @@
 
 				<div class="bottom">
 					<c:if test='${not empty authUser }'>
-						<a href="${pageContext.request.contextPath }/board?a=writeform"
+						<a href="${pageContext.request.contextPath }/board/write"
 							id="new-book">글쓰기</a>
 					</c:if>
 				</div>

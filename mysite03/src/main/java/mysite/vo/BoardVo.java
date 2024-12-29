@@ -3,7 +3,7 @@ package mysite.vo;
 public class BoardVo {
 	private Long id;
 	private String title;
-	private String contents;
+	private String content;
 	private int hit;
 	private String regDate;
 	private int gNo;
@@ -28,12 +28,12 @@ public class BoardVo {
 		this.title = title;
 	}
 
-	public String getContents() {
-		return contents;
+	public String getContent() {
+		return content;
 	}
 
-	public void setContents(String contents) {
-		this.contents = contents;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public int getHit() {
@@ -94,7 +94,7 @@ public class BoardVo {
 
 	@Override
 	public String toString() {
-		return "BoardVo [id=" + id + ", title=" + title + ", contents=" + contents + ", hit=" + hit + ", regDate="
+		return "BoardVo [id=" + id + ", title=" + title + ", content=" + content + ", hit=" + hit + ", regDate="
 				+ regDate + ", gNo=" + gNo + ", oNo=" + oNo + ", depth=" + depth + ", userId=" + userId + ", userName="
 				+ userName + "]";
 	}
