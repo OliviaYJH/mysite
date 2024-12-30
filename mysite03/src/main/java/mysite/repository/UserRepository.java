@@ -17,7 +17,7 @@ public class UserRepository {
 		int count = 0;
 
 		try (Connection conn = getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("insert into user values(null, ?, ?, ?, ?, now());");) {
+				PreparedStatement pstmt = conn.prepareStatement("insert into user values(null, ?, ?, ?, ?, now(), 'USER');");) {
 			pstmt.setString(1, vo.getName());
 			pstmt.setString(2, vo.getEmail());
 			pstmt.setString(3, vo.getPassword());
@@ -51,7 +51,7 @@ public class UserRepository {
 
 		try (Connection conn = getConnection();
 				PreparedStatement pstmt = conn
-						.prepareStatement("select id, name from user where email = ? and password = ?");) {
+						.prepareStatement("select id, name, role from user where email = ? and password = ?");) {
 			pstmt.setString(1, email);
 			pstmt.setString(2, password);
 
@@ -59,10 +59,12 @@ public class UserRepository {
 			if (rs.next()) {
 				Long id = rs.getLong(1);
 				String name = rs.getString(2);
+				String role = rs.getString(3);
 				
 				userVo = new UserVo();
 				userVo.setId(id);
 				userVo.setName(name);
+				userVo.setRole(role);
 			}
 			rs.close();
 		} catch (SQLException e) {
@@ -77,7 +79,7 @@ public class UserRepository {
 
 		try (Connection conn = getConnection();
 				PreparedStatement pstmt = conn
-						.prepareStatement("select id, name, email, password, gender from user where id = ?");) {
+						.prepareStatement("select id, name, email, password, gender, role from user where id = ?");) {
 			pstmt.setLong(1, userId);
 
 			ResultSet rs = pstmt.executeQuery();
@@ -87,6 +89,7 @@ public class UserRepository {
 				String email = rs.getString(3);
 				String password = rs.getString(4);
 				String gender = rs.getString(5);
+				String role = rs.getString(6);
 				
 				userVo = new UserVo();
 				userVo.setId(id);
@@ -94,6 +97,7 @@ public class UserRepository {
 				userVo.setEmail(email);
 				userVo.setPassword(password);
 				userVo.setGender(gender);
+				userVo.setRole(role);
 			}
 			rs.close();
 		} catch (SQLException e) {
