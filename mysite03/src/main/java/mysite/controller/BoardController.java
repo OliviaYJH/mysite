@@ -88,7 +88,7 @@ public class BoardController {
 		if (authUser == null) {
 			return "redirect:/board/view/" + id;
 		}
-		
+
 		BoardVo vo = boardService.getContents(id);
 		model.addAttribute("vo", vo);
 		return "board/modify";
@@ -101,6 +101,23 @@ public class BoardController {
 	}
 
 	// 답글 작성
-	
+	@RequestMapping(value = "/reply/{boardId}", method = RequestMethod.GET)
+	public String reply(@PathVariable("boardId") Long boardId) {
+		return "board/reply";
+	}
+
+	@RequestMapping(value = "/reply/{boardId}", method = RequestMethod.POST)
+	public String reply(HttpSession session, BoardVo vo, @PathVariable("boardId") Long boardId) {
+		System.out.println("reply vo: " + vo);
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		if (authUser == null) {
+			return "redirect:/board/1";
+		}
+
+		vo.setUserId(authUser.getId());
+		vo.setId(boardId);
+		boardService.addContents(vo);
+		return "redirect:/board/1";
+	}
 
 }

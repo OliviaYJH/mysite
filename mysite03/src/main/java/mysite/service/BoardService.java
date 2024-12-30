@@ -19,7 +19,18 @@ public class BoardService {
 	}
 
 	public void addContents(BoardVo vo) {
-		boardRepository.insertNew(vo);
+		if (vo.getId() == null) {
+			boardRepository.insertNew(vo);
+		} else {
+			BoardVo boardVo = boardRepository.findById(vo.getId());
+			
+			boardRepository.updateBygNoAndoNo(vo.getgNo(), vo.getoNo());
+			boardVo.setTitle(vo.getTitle());
+			boardVo.setContent(vo.getContent());
+			boardVo.setUserId(vo.getUserId());
+			boardRepository.insertReply(boardVo);
+		}
+
 	}
 
 	public BoardVo getContents(Long id) { // boardId
