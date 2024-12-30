@@ -17,8 +17,7 @@
 		<div id="content">
 			<div id="board">
 				<form id="search_form"
-					action="${pageContext.request.contextPath }/board" method="post">
-					<input type="hidden" name="a" value="search"> 
+					action="${pageContext.request.contextPath }/board/1" method="post">
 					<input type="text" id="kwd" name="kwd" value="${keyword }"> 
 					<input type="submit" value="찾기">
 				</form>
@@ -96,7 +95,7 @@
 											<li><a href="${pageContext.request.contextPath }/board/${no }">${no }</a></li>
 										</c:when>
 										<c:otherwise>
-											<li><a href="${pageContext.request.contextPath }/board/${no}/${keyword}">${no }</a></li>
+											<li><a href="${pageContext.request.contextPath }/board/${no}">${no }</a></li>
 										</c:otherwise>
 									</c:choose>
 								</c:otherwise>
@@ -113,7 +112,7 @@
 									</c:when>
 									<c:otherwise>
 										<li><a
-											href="${pageContext.request.contextPath }/board/${pageNo+1}/${keyword}">▶</a></li>
+											href="${pageContext.request.contextPath }/board/${pageNo+1}">▶</a></li>
 									</c:otherwise>
 								</c:choose>
 							</c:when>

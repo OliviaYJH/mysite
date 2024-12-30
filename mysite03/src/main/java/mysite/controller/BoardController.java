@@ -38,6 +38,7 @@ public class BoardController {
 		model.addAttribute("endPage", map.get("endPage"));
 		model.addAttribute("prevPage", map.get("prevPage"));
 		model.addAttribute("nextPage", map.get("nextPage"));
+		model.addAttribute("keyword", map.get("keyword"));
 
 		return "board/list";
 	}
@@ -101,6 +102,5 @@ public class BoardController {
 
 	// 답글 작성
 	
-	
-	// 검색 
+
 }
