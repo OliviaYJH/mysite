@@ -25,12 +25,12 @@ public class BoardController {
 
 	@RequestMapping("/{pageNo}")
 	public String list(Model model, @PathVariable("pageNo") String no,
-			@RequestParam(value = "kwd", required = true, defaultValue = "") String keyword) {
+			@RequestParam(value = "kwd", required = true, defaultValue = "") String kwd) {
 		if (no == null)
 			no = "1";
 		int pageNo = Integer.parseInt(no);
 
-		Map<String, Object> map = boardService.getContentsList(pageNo, keyword);
+		Map<String, Object> map = boardService.getContentsList(pageNo, kwd);
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("totalCount", map.get("totalCount"));
 		model.addAttribute("pageSize", map.get("pageSize"));
@@ -38,8 +38,8 @@ public class BoardController {
 		model.addAttribute("endPage", map.get("endPage"));
 		model.addAttribute("prevPage", map.get("prevPage"));
 		model.addAttribute("nextPage", map.get("nextPage"));
-		model.addAttribute("keyword", map.get("keyword"));
-
+		model.addAttribute("kwd", map.get("kwd"));
+		
 		return "board/list";
 	}
 
@@ -120,4 +120,5 @@ public class BoardController {
 		return "redirect:/board/1";
 	}
 
+	
 }

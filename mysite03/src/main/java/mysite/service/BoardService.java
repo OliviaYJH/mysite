@@ -23,7 +23,7 @@ public class BoardService {
 			boardRepository.insertNew(vo);
 		} else {
 			BoardVo boardVo = boardRepository.findById(vo.getId());
-			
+
 			boardRepository.updateBygNoAndoNo(vo.getgNo(), vo.getoNo());
 			boardVo.setTitle(vo.getTitle());
 			boardVo.setContent(vo.getContent());
@@ -53,17 +53,21 @@ public class BoardService {
 	public Map<String, Object> getContentsList(int pageNo, String keyword) {
 		Map<String, Object> map = new HashMap<>();
 		List<BoardVo> list = null;
+		int totalCount = 0, endPage = 0;
 		if (keyword.isBlank()) {
 			list = boardRepository.findAll(pageNo, pageSize);
+
+			// view의 pagination를 위한 데이터 값 계산
+			totalCount = boardRepository.findBoardCount();
+			endPage = boardRepository.findEndPage(pageSize);
 		} else {
 			list = boardRepository.findAllByKeyword(pageNo, pageSize, keyword);
+			totalCount = boardRepository.findBoardCountByKeyword(keyword);
+			endPage = boardRepository.findEndPageByKeyword(keyword, pageSize);
 		}
 		map.put("list", list);
 
-		// view의 pagination를 위한 데이터 값 계산
-		int totalCount = boardRepository.findBoardCount();
 		int beginPage = 1;
-		int endPage = boardRepository.findEndPage(pageSize);
 
 		int prevPage = pageNo - 2;
 		if (pageNo + 2 >= endPage)
@@ -82,8 +86,8 @@ public class BoardService {
 		map.put("endPage", endPage);
 		map.put("prevPage", prevPage);
 		map.put("nextPage", nextPage);
-		map.put("keyword", keyword);
-
+		map.put("kwd", keyword);
+		
 		return map;
 	}
 }
