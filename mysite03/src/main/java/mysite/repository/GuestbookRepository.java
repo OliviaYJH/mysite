@@ -8,16 +8,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.springframework.stereotype.Repository;
 
 import mysite.vo.GuestbookVo;
 
 @Repository
 public class GuestbookRepository {
+	private DataSource dataSource;
+	
+	public GuestbookRepository(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+	
 	public List<GuestbookVo> findAll() {
 		List<GuestbookVo> result = new ArrayList<>();
 
-		try (Connection conn = getConnection();
+		try (Connection conn = dataSource.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(
 						"select id, name, contents, date_format(reg_date, '%Y-%m-%d %h:%i:%s') from guestbook order by reg_date desc");
 				ResultSet rs = pstmt.executeQuery();) {
@@ -42,25 +50,10 @@ public class GuestbookRepository {
 		return result;
 	}
 
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
-
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-
-			String url = "jdbc:mariadb://192.168.64.7:3306/webdb";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패: " + e);
-		}
-
-		return conn;
-	}
-
 	public int insert(GuestbookVo vo) {
 		int count = 0;
 
-		try (Connection conn = getConnection();
+		try (Connection conn = dataSource.getConnection();
 				PreparedStatement pstmt = conn
 						.prepareStatement("insert into guestbook values(null, ?, ?, ?, now());");) {
 			pstmt.setString(1, vo.getName());
@@ -78,7 +71,7 @@ public class GuestbookRepository {
 
 //		int count = 0;
 
-		try (Connection conn = getConnection();
+		try (Connection conn = dataSource.getConnection();
 				PreparedStatement pstmt = conn
 						.prepareStatement("delete from guestbook where id = ? and password= ?;");) {
 			pstmt.setLong(1, id);
