@@ -26,7 +26,7 @@
 							<td><input type="password" name="password"></td>
 						</tr>
 						<tr>
-							<td colspan=4><textarea name="content" id="content"></textarea></td>
+							<td colspan=4><textarea name="contents" id="content"></textarea></td>
 						</tr>
 						<tr>
 							<td colspan=4 align=right><input type="submit" VALUE=" 확인 "></td>
@@ -47,7 +47,7 @@
 									href="${pageContext.request.contextPath }/guestbook/delete/${vo.id }">삭제</a></td>
 							</tr>
 							<tr>
-								<td colspan=4>${fn:replace(vo.content, newLine, "<br>") }</td>
+								<td colspan=4>${fn:replace(vo.contents, newLine, "<br>") }</td>
 							</tr>
 						</table>
 						 <br>
