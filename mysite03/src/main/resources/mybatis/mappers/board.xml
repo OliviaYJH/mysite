@@ -25,13 +25,13 @@
 		from board b, user u where b.user_id = u.id and b.id = #{id}
 		]]>
 	</select>
-	
+
 	<select id="selectMaxgNo" resultType="integer">
 		<![CDATA[
 			select max(g_no) from board
 		]]>
 	</select>
-	
+
 	<insert id="insertNew" parameterType="boardvo">
 		<![CDATA[
 			insert board values(null, #{title}, #{contents}, 0, now(), #{gNo}, 1, 0, #{userId})
@@ -54,17 +54,47 @@
 			update board set hit = hit + 1 where id = #{id}
 		]]>
 	</update>
-	
+
 	<update id="updateByBoardId" parameterType="boardvo">
 		<![CDATA[
 			update board set title = #{title}, contents = #{contents} where id = #{id}
 		]]>
 	</update>
-	
+
 	<update id="updateBygNoAndoNo" parameterType="map">
 		<![CDATA[
-			update board set o_no = o_no + 1 where g_no = ? and o_no >= ?
+			update board set o_no = o_no + 1 where g_no = #{gNo} and o_no >= #{oNo}
 		]]>
 	</update>
-	
+
+	<delete id="deleteByBoardId" parameterType="long">
+		<![CDATA[
+			delete from board where id = #{boardId}
+		]]>
+	</delete>
+
+	<select id="findEndPage" parameterType="int" resultType="int">
+		<![CDATA[
+			select ceil(count(*)/#{pageSize}) from board
+		]]>
+	</select>
+
+	<select id="findEndPageByKeyword" parameterType="map"
+		resultType="int">
+		<![CDATA[
+			select ceil(count(*) / #{pageSize}) from board where title like #{keyword}
+		]]>
+	</select>
+
+	<select id="findBoardCount" resultType="int">
+		<![CDATA[
+			select count(*) from board
+		]]>
+	</select>
+
+	<select id="findBoardCountByKeyword" parameterType="String"
+		resultType="int">
+		<![CDATA[select count(*) from board where title like #{keyword}]]>
+	</select>
+
 </mapper>

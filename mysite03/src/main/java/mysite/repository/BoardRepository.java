@@ -58,99 +58,28 @@ public class BoardRepository {
 		return sqlSession.update("board.updateByBoardId", vo);
 	}
 
-	public void updateBygNoAndoNo(int gNo, int oNo) {
-		try (Connection conn = dataSource.getConnection();
-				PreparedStatement pstmt = conn
-						.prepareStatement("update board set o_no = o_no + 1 where g_no = ? and o_no >= ?;");) {
-			pstmt.setInt(1, gNo);
-			pstmt.setInt(2, oNo + 1);
-
-			pstmt.executeUpdate();
-
-		} catch (SQLException e) {
-			System.out.println("드라이버 로딩 실패: " + e);
-		}
+	public int updateBygNoAndoNo(int gNo, int oNo) {
+		return sqlSession.update("board.updateBygNoAndoNo", Map.of("gNo", gNo, "oNo", oNo + 1));
 	}
 
 	public int deleteByBoardId(Long boardId) {
-		int count = 0;
-		try (Connection conn = dataSource.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("delete from board where id = ?;");) {
-			pstmt.setLong(1, boardId);
-
-			count = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("error: " + e);
-		}
-
-		return count;
+		return sqlSession.delete("board.deleteByBoardId", boardId);
 	}
 
 	public int findEndPage(int pageSize) {
-		int result = 0;
-
-		try (Connection conn = dataSource.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("select ceil(count(*)/?) from board;")) {
-			pstmt.setInt(1, pageSize);
-
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				result = rs.getInt(1);
-		} catch (SQLException e) {
-			System.out.println("error: " + e);
-		}
-
-		return result;
+		return sqlSession.selectOne("findEndPage", pageSize);
 	}
 
 	public int findEndPageByKeyword(String keyword, int pageSize) {
-		int result = 0;
-
-		try (Connection conn = dataSource.getConnection();
-				PreparedStatement pstmt = conn
-						.prepareStatement("select ceil(count(*)/?) from board where title like ?;")) {
-			pstmt.setInt(1, pageSize);
-			pstmt.setString(2, "%" + keyword + "%");
-
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				result = rs.getInt(1);
-		} catch (SQLException e) {
-			System.out.println("error: " + e);
-		}
-
-		return result;
+		return sqlSession.selectOne("board.findEndPageByKeyword",
+				Map.of("keyword", "%" + keyword + "%", "pageSize", pageSize));
 	}
 
 	public int findBoardCount() {
-		int result = 0;
-
-		try (Connection conn = dataSource.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("select count(*) from board;")) {
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				result = rs.getInt(1);
-		} catch (SQLException e) {
-			System.out.println("error: " + e);
-		}
-
-		return result;
+		return sqlSession.selectOne("board.findBoardCount");
 	}
 
 	public int findBoardCountByKeyword(String keyword) {
-		int result = 0;
-
-		try (Connection conn = dataSource.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("select count(*) from board where title like ?;")) {
-			pstmt.setString(1, "%" + keyword + "%");
-
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				result = rs.getInt(1);
-		} catch (SQLException e) {
-			System.out.println("error: " + e);
-		}
-
-		return result;
+		return sqlSession.selectOne("board.findBoardCountByKeyword",  "%" + keyword + "%");
 	}
 }
