@@ -21,13 +21,13 @@
 					</tr>
 					<tr>
 						<td class="label">제목</td>
-						<td>${vo.title }.</td>
+						<td>${vo.title }</td>
 					</tr>
 					<tr>
 						<td class="label">내용</td>
 						<td>
 							<div class="view-content">
-								${vo.content }
+								${vo.contents }
 							</div>
 						</td>
 					</tr>

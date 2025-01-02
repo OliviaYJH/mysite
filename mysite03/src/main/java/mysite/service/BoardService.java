@@ -23,14 +23,12 @@ public class BoardService {
 			boardRepository.insertNew(vo);
 		} else {
 			BoardVo boardVo = boardRepository.findById(vo.getId());
-
-			boardRepository.updateBygNoAndoNo(vo.getgNo(), vo.getoNo());
+			boardRepository.updateBygNoAndoNo(boardVo.getgNo(), boardVo.getoNo());
 			boardVo.setTitle(vo.getTitle());
-			boardVo.setContent(vo.getContent());
+			boardVo.setContents(vo.getContents());
 			boardVo.setUserId(vo.getUserId());
 			boardRepository.insertReply(boardVo);
 		}
-
 	}
 
 	public BoardVo getContents(Long id) { // boardId

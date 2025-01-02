@@ -28,7 +28,7 @@
 						</tr>
 						<tr>
 							<td class="label">내용</td>
-							<td><textarea id="content" name="content"></textarea></td>
+							<td><textarea id="content" name="contents"></textarea></td>
 						</tr>
 					</table>
 					<div class="bottom">
