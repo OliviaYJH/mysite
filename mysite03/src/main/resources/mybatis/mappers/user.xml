@@ -4,7 +4,7 @@
 <mapper namespace="user">
 	<insert id="insert" parameterType="uservo">
 		<![CDATA[
-			insert into user values(null, #{name}, #{email}, #{password}, #{gender}, now(), 'USER')
+			inser into user values(null, #{name}, #{email}, #{password}, #{gender}, now(), 'USER')
 		]]>
 		
 		<selectKey keyProperty="id" resultType="long" order="AFTER">

@@ -11,6 +11,6 @@
 </head>
 <body>
 	<h1>Exception Handler: Spring Controller</h1>
-	<p>장애가 발생 했습니다.</p>
+	<pre style="color:#f00">${errors }</pre>
 </body>
 </html>
