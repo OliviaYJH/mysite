@@ -5,7 +5,7 @@
 	pageEncoding="UTF-8"%>
 <div id="header">
 	<!-- 모든 Header 부분을 header.jsp로 만들고 import 시키기 -->
-	<h1>MySite</h1>
+	<h1>${sessionScope.siteTitle }</h1>
 	<ul>
 		<c:choose>
 			<c:when test='${empty authUser }'>
