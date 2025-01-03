@@ -14,12 +14,17 @@
 	<mvc:annotation-driven>
 		<!-- Argument Resolvers -->
 		<mvc:argument-resolvers>
-			<bean class="mysite.security.AuthUserHandlerMethodArguemtnResolver"/>
+			<bean
+				class="mysite.security.AuthUserHandlerMethodArguemtnResolver" />
 		</mvc:argument-resolvers>
 	</mvc:annotation-driven>
 
 	<!-- DefaultServletHandler -->
 	<mvc:default-servlet-handler />
+
+	<!-- mvc url-resource mapping -->
+	<mvc:resources mapping="/assets/upload-images/**"
+		location="file:/Users/yujunghyun/Documents/poscodx/mysite-uploads" />
 
 	<!-- Interceptors -->
 	<mvc:interceptors>

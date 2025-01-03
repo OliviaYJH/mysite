@@ -18,7 +18,7 @@
 		<div id="wrapper">
 			<div id="content">
 				<div id="site-introduction">
-					<img id="profile" src="${pageContext.request.contextPath }/assets/images/loopy.jpg"
+					<img id="profile" src="${pageContext.request.contextPath }/assets/upload-images/default.jpg"
 						style="width: 500px">
 					<h2>안녕하세요. 유정현의 mysite에 오신 것을 환영합니다.</h2>
 					<p>
