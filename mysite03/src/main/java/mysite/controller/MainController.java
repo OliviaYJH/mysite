@@ -19,10 +19,7 @@ public class MainController {
 	@RequestMapping({ "/", "/main" })
 	public String index(Model model, HttpServletRequest request) {
 		SiteVo vo = siteService.getSite();
-		model.addAttribute("siteVo", vo);
-		
-		request.getSession().setAttribute("siteTitle", vo.getTitle());
-		
+		model.addAttribute("siteVo", vo);		
 		return "main/index";
 	}
 
