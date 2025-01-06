@@ -37,8 +37,10 @@
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
 
+	<!-- ApplicationContextEventListener -->
+	<bean class="mysite.event.ApplicationContextEventListener"/>
+	
 	<context:annotation-config />
-
 	<context:component-scan
 		base-package="mysite.service, mysite.repository">
 		<context:include-filter type="annotation"

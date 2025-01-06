@@ -11,7 +11,7 @@ import mysite.vo.SiteVo;
 @Controller
 public class MainController {
 	private SiteService siteService;
-
+	
 	public MainController(SiteService siteService) {
 		this.siteService = siteService;
 	}

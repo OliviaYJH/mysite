@@ -22,6 +22,23 @@
 	<!-- DefaultServletHandler -->
 	<mvc:default-servlet-handler />
 
+	<!-- Message Source -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>messages/message</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Locale Resolver -->
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<constructor-arg index="0" value="lang" />
+		<property name="cookieHttpOnly" value="false" />
+	</bean>
+
 	<!-- mvc url-resource mapping -->
 	<mvc:resources mapping="/assets/upload-images/**"
 		location="file:/Users/yujunghyun/Documents/poscodx/mysite-uploads" />
@@ -37,15 +54,16 @@
 			<bean class="mysite.security.LogoutInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
-			<mvc:mapping path="/" />
-			<bean class="mysite.security.SiteInterceptor" />
-		</mvc:interceptor>
-		<mvc:interceptor>
 			<mvc:mapping path="/**" />
 			<mvc:exclude-mapping path="/user/auth" />
 			<mvc:exclude-mapping path="/user/logout" />
 			<mvc:exclude-mapping path="/assets/**" />
 			<bean class="mysite.security.AuthInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/assets/**" />
+			<bean class="mysite.interceptor.SiteInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
 
