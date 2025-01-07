@@ -22,8 +22,8 @@
 </script>
 
 <div id="header">
-	<!-- 모든 Header 부분을 header.jsp로 만들고 import 시키기 -->
-	<h1>${sessionScope.title }</h1>
+	<!-- ${siteVo.title }: servletContext에 있음 -->
+	<h1>${site.title }</h1> <!-- bean 등록이 되어 있는, application context에 있음 -->
 	<div id="languages">
 		<c:choose>
 			<c:when test="${lang == 'en' }">

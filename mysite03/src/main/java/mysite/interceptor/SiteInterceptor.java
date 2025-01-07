@@ -9,9 +9,9 @@ import mysite.service.SiteService;
 import mysite.vo.SiteVo;
 
 public class SiteInterceptor implements HandlerInterceptor {
-	private LocaleResolver localeResolver;
-	private SiteService siteService;
-	
+	private final LocaleResolver localeResolver;
+	private final SiteService siteService;
+
 	public SiteInterceptor(SiteService siteService, LocaleResolver localeResolver) {
 		this.siteService = siteService;
 		this.localeResolver = localeResolver;
@@ -20,15 +20,19 @@ public class SiteInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		// locale 
+		
+		SiteVo siteVo = (SiteVo) request.getServletContext().getAttribute("siteVo");
+		
+		if(siteVo == null) {
+			siteVo = siteService.getSite();
+			request.getServletContext().setAttribute("siteVo", siteVo);
+		}
+		
+		// locale
 		String lang = localeResolver.resolveLocale(request).getLanguage();
 		request.setAttribute("lang", lang);
 		
-		SiteVo vo = siteService.getSite();
-		
-		request.getSession().setAttribute("title", vo.getTitle());
 		return true;
 	}
-	
-}
 
+}
