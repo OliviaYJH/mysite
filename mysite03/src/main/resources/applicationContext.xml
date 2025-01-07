@@ -11,6 +11,7 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+	<aop:aspectj-autoproxy />
 
 	<!-- DataSource(Connection Pool) -->
 	<bean id="dataSource"
@@ -38,11 +39,11 @@
 	</bean>
 
 	<!-- ApplicationContextEventListener -->
-	<bean class="mysite.event.ApplicationContextEventListener"/>
-	
+	<bean class="mysite.event.ApplicationContextEventListener" />
+
 	<context:annotation-config />
 	<context:component-scan
-		base-package="mysite.service, mysite.repository">
+		base-package="mysite.service, mysite.repository, mysite.aspect">
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Repository" />
 		<context:include-filter type="annotation"
