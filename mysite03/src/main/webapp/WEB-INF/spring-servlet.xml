@@ -9,11 +9,31 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-	<aop:aspectj-autoproxy/>
+	<aop:aspectj-autoproxy />
 	<mvc:annotation-driven />
-	
+
 	<!-- Validator, ConversionService, MessageConverter을 자동으로 등록 -->
 	<mvc:annotation-driven>
+		<!-- Message Converter -->
+		<mvc:message-converters>
+			<bean
+				class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html; charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>application/json; charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+
 		<!-- Argument Resolvers -->
 		<mvc:argument-resolvers>
 			<bean

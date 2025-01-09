@@ -30,13 +30,14 @@
 						<form:errors path="name" />
 					</p>
 
-					<label class="block-label" for="email"><spring:message
-							code="user.join.label.email" /></label>
+					<spring:message code="user.join.label.email.check" var="userJoinLabelEmailCheck" />
+					<label class="block-label" for="email"><spring:message code="user.join.label.email" /></label>
 					<form:input path="email" />
-					<input type="button" value="<spring:message code='user.join.label.email.check'/>">
-					<p style="padding: 5px 0; margin: 0; color: #f00; text-align:start">
+					<input id="btn-check" type="button" value="${userJoinLabelEmailCheck }" style="display:;">
+					<img id="img-check" src="${pageContext.request.contextPath}/assets/images/check.png" style="vertical-align:bottom; width:24px; display: none">
+					<p style="color:#f00; text-align:left; padding:0">
 						<form:errors path="email" />
-					</p>
+					</p>	
 
 					<label class="block-label"><spring:message
 							code="user.join.label.password" /></label>
