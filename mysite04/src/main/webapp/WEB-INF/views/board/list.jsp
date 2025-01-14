@@ -48,7 +48,7 @@
 								<c:when test='${vo.userId == authUser.id }'>
 									<td><a
 										href="${pageContext.request.contextPath }/board/delete/${vo.id}"
-										class="del">삭제</a></td>
+										class="del"><img src="${pageContext.request.contextPath }/assets/images/recycle.png"></a></td>
 								</c:when>
 								<c:otherwise>
 									<td></td>
