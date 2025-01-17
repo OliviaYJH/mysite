@@ -1,5 +1,6 @@
 package mysite.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import mysite.repository.UserRepository;
@@ -7,13 +8,17 @@ import mysite.vo.UserVo;
 
 @Service
 public class UserService {
+	private PasswordEncoder passwordEncoder;
+
 	private UserRepository userRepository;
 
-	public UserService(UserRepository userRepository) {
+	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	public void join(UserVo userVo) {
+		userVo.setPassword(passwordEncoder.encode(userVo.getPassword()));
 		userRepository.insert(userVo);
 	}
 
@@ -30,6 +35,8 @@ public class UserService {
 	}
 
 	public UserVo getUser(String email) {
-		return userRepository.findByEmail(email);
+		UserVo userVo = userRepository.findByEmail(email, UserVo.class);
+		userVo.setPassword("");
+		return userVo;
 	}
 }
