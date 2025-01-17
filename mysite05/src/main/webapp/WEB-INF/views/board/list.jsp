@@ -46,17 +46,22 @@
 							<td>${vo.userName }</td>
 							<td>${vo.hit }</td>
 							<td>${vo.regDate }</td>
-							<c:choose>
-								<c:when test='${vo.userId == authUser.id }'>
-									<td><a
-										href="${pageContext.request.contextPath }/board/delete/${vo.id}"
-										class="del"><img
-											src="${pageContext.request.contextPath }/assets/images/recycle.png"></a></td>
-								</c:when>
-								<c:otherwise>
-									<td></td>
-								</c:otherwise>
-							</c:choose>
+
+							<sec:authorize access="isAuthenticated()">
+								<sec:authentication property="principal" var="authUser" />
+								<c:choose>
+									<c:when test='${vo.userId == authUser.id }'>
+										<td><a
+											href="${pageContext.request.contextPath }/board/delete/${vo.id}"
+											class="del"><img
+												src="${pageContext.request.contextPath }/assets/images/recycle.png"></a></td>
+									</c:when>
+									<c:otherwise>
+										<td></td>
+									</c:otherwise>
+								</c:choose>
+							</sec:authorize>
+
 						</tr>
 					</c:forEach>
 				</table>
