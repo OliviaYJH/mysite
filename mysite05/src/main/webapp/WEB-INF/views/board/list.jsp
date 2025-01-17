@@ -3,6 +3,8 @@
 <%@ taglib uri="jakarta.tags.functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,7 +50,8 @@
 								<c:when test='${vo.userId == authUser.id }'>
 									<td><a
 										href="${pageContext.request.contextPath }/board/delete/${vo.id}"
-										class="del"><img src="${pageContext.request.contextPath }/assets/images/recycle.png"></a></td>
+										class="del"><img
+											src="${pageContext.request.contextPath }/assets/images/recycle.png"></a></td>
 								</c:when>
 								<c:otherwise>
 									<td></td>
@@ -84,10 +87,12 @@
 								<c:otherwise>
 									<c:choose>
 										<c:when test="${empty kwd }">
-											<li><a href="${pageContext.request.contextPath }/board/${no }?kwd=">${no }</a></li>
+											<li><a
+												href="${pageContext.request.contextPath }/board/${no }?kwd=">${no }</a></li>
 										</c:when>
 										<c:otherwise>
-											<li><a href="${pageContext.request.contextPath }/board/${no}?kwd=${kwd}">${no }</a></li>
+											<li><a
+												href="${pageContext.request.contextPath }/board/${no}?kwd=${kwd}">${no }</a></li>
 										</c:otherwise>
 									</c:choose>
 								</c:otherwise>
@@ -110,10 +115,10 @@
 				<!-- pager 추가 -->
 
 				<div class="bottom">
-					<c:if test='${not empty authUser }'>
+					<sec:authorize access="isAuthenticated()">
 						<a href="${pageContext.request.contextPath }/board/write"
 							id="new-book">글쓰기</a>
-					</c:if>
+					</sec:authorize>
 				</div>
 			</div>
 		</div>

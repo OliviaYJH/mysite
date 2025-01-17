@@ -4,6 +4,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <script>
 	window.addEventListener("load", function() {
 		anchors = document.querySelectorAll('#languages a');
@@ -11,10 +13,9 @@
 		anchors.forEach(function(el) {
 			el.addEventListener("click", function(event) {
 				event.preventDefault();
-				document.cookie = 
-					"lang=" + this.getAttribute('data-lang') + ";" + 
-					"path=" + "${pageContext.request.contextPath }" + ";" + 
-					"max-age=" + (30 * 24 * 60 * 60);
+				document.cookie = "lang=" + this.getAttribute('data-lang')
+						+ ";" + "path=" + "${pageContext.request.contextPath }"
+						+ ";" + "max-age=" + (30 * 24 * 60 * 60);
 				location.reload();
 			});
 		});
@@ -23,7 +24,8 @@
 
 <div id="header">
 	<!-- ${siteVo.title }: servletContext에 있음 -->
-	<h1>${site.title }</h1> <!-- bean 등록이 되어 있는, application context에 있음 -->
+	<h1>${site.title }</h1>
+	<!-- bean 등록이 되어 있는, application context에 있음 -->
 	<div id="languages">
 		<c:choose>
 			<c:when test="${lang == 'en' }">
@@ -36,9 +38,9 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
-	
-	
+
 	<ul>
+		<!--
 		<c:choose>
 			<c:when test='${empty authUser }'>
 				<li><a href="${pageContext.request.contextPath }/user/login"><spring:message
@@ -55,8 +57,25 @@
 				<li><a href="${pageContext.request.contextPath }/user/logout"><spring:message
 							code="header.gnb.logout" /></a>
 				<li>
-				<li> <spring:message code="header.gnb.greeting" /> ${authUser.name } </li>
+				<li><spring:message code="header.gnb.greeting" />
+					${authUser.name }</li>
 			</c:otherwise>
 		</c:choose>
+		-->
+		<sec:authorize access="!isAuthenticated()">
+			<li><a href="${pageContext.request.contextPath}/user/login">로그인</a>
+			<li>
+			<li><a href="${pageContext.request.contextPath}/user/join">회원가입</a>
+			<li>
+		</sec:authorize>
+		<sec:authorize access="isAuthenticated()">
+			<sec:authentication property="principal" var="authUser" />
+			<li><a href="${pageContext.request.contextPath}/user/update">회원정보수정</a>
+			<li>
+			<li><a href="${pageContext.request.contextPath}/user/logout">로그아웃</a>
+			<li>
+			<li><spring:message code="header.gnb.greeting" />
+				${authUser.name }</li>
+		</sec:authorize>
 	</ul>
 </div>
