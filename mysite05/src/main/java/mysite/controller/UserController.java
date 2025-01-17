@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import mysite.security.Auth;
 import mysite.service.UserService;
 import mysite.vo.UserVo;
 
@@ -66,7 +65,6 @@ public class UserController {
 	 * model.addAttribute("vo", userVo); return "user/update"; }
 	 */
 
-	@Auth
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public String update(HttpSession session, Authentication authentication, Model model) {
 
@@ -110,7 +108,6 @@ public class UserController {
 	 * authUser.setName(userVo.getName()); return "redirect:/user/update"; }
 	 */
 
-	@Auth
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String update(Authentication authentication, UserVo userVo) {
 		UserVo authUser = (UserVo) authentication.getPrincipal();

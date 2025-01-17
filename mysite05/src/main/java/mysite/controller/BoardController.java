@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import mysite.security.Auth;
 import mysite.service.BoardService;
 import mysite.vo.BoardVo;
 import mysite.vo.UserVo;
@@ -77,7 +76,6 @@ public class BoardController {
 	}
 
 	// 게시글 수정
-	@Auth
 	@RequestMapping(value = "/modify/{id}", method = RequestMethod.GET)
 	public String modify(@PathVariable("id") Long id, Model model) {
 		BoardVo vo = boardService.getContents(id);
