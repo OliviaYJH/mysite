@@ -9,7 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.AuthenticationException;
@@ -31,16 +30,17 @@ import mysite.security.UserDetailsServiceImpl;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-	
+
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
-		return new WebSecurityCustomizer() {
+		/*
+		 * return new WebSecurityCustomizer() {
+		 * 
+		 * @Override public void customize(WebSecurity web) { web.httpFirewall(new
+		 * DefaultHttpFirewall()); } };
+		 */
 
-			@Override
-			public void customize(WebSecurity web) {
-				web.httpFirewall(new DefaultHttpFirewall());
-			}
-		};
+		return webSecurity -> webSecurity.httpFirewall(new DefaultHttpFirewall());
 	}
 
 	@Bean
