@@ -12,17 +12,19 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableWebMvc
+//@EnableWebMvc
 @PropertySource("classpath:mysite/config/web/fileupload.properties")
 public class FileUploadConfig implements WebMvcConfigurer {
 	@Autowired
 	private Environment env;
 
 	// Multipart Resolver
+	/*
 	@Bean
 	public MultipartResolver multipartResolver() {
 		return new StandardServletMultipartResolver();
 	}
+	*/
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {

@@ -28,7 +28,7 @@ import mysite.interceptor.SiteInterceptor;
 import mysite.service.SiteService;
 
 @Configuration
-@EnableWebMvc
+//@EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer {
 
 	// View Resolver
@@ -44,36 +44,10 @@ public class MvcConfig implements WebMvcConfigurer {
 		return viewResolver;
 	}
 
-	// Message Converter
-	@Bean
-	public StringHttpMessageConverter stringHttpMessageConverter() {
-		StringHttpMessageConverter messageConverter = new StringHttpMessageConverter();
-		messageConverter.setSupportedMediaTypes(Arrays.asList(new MediaType("text", "html", Charset.forName("utf-8"))));
-		return messageConverter;
-	}
-
-	@Bean
-	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder().indentOutput(true)
-				.dateFormat(new SimpleDateFormat("yyyy-mm-dd hh:MM:ss"));
-
-		MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter(builder.build());
-		messageConverter
-				.setSupportedMediaTypes(Arrays.asList(new MediaType("application", "json", Charset.forName("utf-8"))));
-		return messageConverter;
-	}
-
-	@Override
-	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		converters.add(stringHttpMessageConverter());
-		converters.add(mappingJackson2HttpMessageConverter());
-	}
-
 	// static(assets) url mapping
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/assets/**")
-				.addResourceLocations("classpath:assets/");
+		registry.addResourceHandler("/assets/**").addResourceLocations("classpath:assets/");
 	}
 
 	// DefaultServlet Handler
