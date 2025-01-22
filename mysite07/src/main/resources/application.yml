@@ -1,0 +1,66 @@
+# spring configuration
+spring:
+   application:
+      name: mysite07
+   
+   # devtool
+   devtools:
+      restart: 
+         enabled: true
+      livereload:
+         enabled: true
+
+   # whether bean definition overriding
+   main:
+      allow-bean-definition-overriding: true
+
+   aop:
+      auto: true
+      proxy-target-class: true
+
+   # mvc
+   mvc:
+      static-path-pattern: /assets/**
+
+   web:
+      resources: 
+         static-locations: [classpath:assets/, file:/Users/yujunghyun/Documents/poscodx/mysite-uploads/]
+
+   servlet:
+      multipart: 
+         enabled: true
+         max-file-size: 10485760
+         max-request-size: 104857600
+         file-size-threshold: 5242880
+
+   # message resources(i18n) 
+   messages: 
+      basename: messages/message
+      encoding: utf-8
+
+   datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+      url: jdbc:mariadb://192.168.64.7:3306/webdb
+      username: webdb
+      password: webdb
+      hikari:
+         minimum-idle: 10
+         maximum-pool-size: 20
+
+# mybatis
+mybatis:
+   config-location: classpath:mybatis/configuration.xml
+   
+# server configuration
+server:
+   port: 8080
+   servlet: 
+      context-path: /
+   error:
+      whitelabel: 
+         enabled: true
+      path: /error 
+
+# logging
+logging:
+   config: classpath:logback.xml
