@@ -9,13 +9,27 @@ spring:
          enabled: true
       livereload:
          enabled: true
- 
+
+   # whether bean definition overriding
+   main:
+      allow-bean-definition-overriding: true
+
    aop:
       auto: true
       proxy-target-class: true
 
-   main:
-      allow-bean-definition-overriding: true
+   datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+      url: jdbc:mariadb://192.168.64.7:3306/webdb
+      username: webdb
+      password: webdb
+      hikari:
+         minimum-idle: 10
+         maximum-pool-size: 20
+
+# mybatis
+mybatis:
+   config-location: classpath:mybatis/configuration.xml
    
 # server configuration
 server:
