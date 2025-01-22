@@ -18,6 +18,11 @@ spring:
       auto: true
       proxy-target-class: true
 
+   # message resources(i18n) 
+   messages: 
+      basename: messages/message
+      encoding: utf-8
+
    datasource:
       driver-class-name: org.mariadb.jdbc.Driver
       url: jdbc:mariadb://192.168.64.7:3306/webdb
