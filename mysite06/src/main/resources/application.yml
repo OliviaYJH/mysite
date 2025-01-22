@@ -56,9 +56,10 @@ server:
    port: 8080
    servlet: 
       context-path: /mysite06
-      #encoding: 
-       #  charset: utf-8
-        # enabled: true 
+   error:
+      whitelabel: 
+         enabled: true
+      path: /error 
 
 # logging
 logging:

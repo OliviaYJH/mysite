@@ -80,8 +80,11 @@ public class SecurityConfig {
 					.requestMatchers(new RegexRequestMatcher("^/board/?(write|modify|delete|reply)$", null))
 					.hasAnyRole("ADMIN", "USER")
 
-					.anyRequest().permitAll();
-		}).exceptionHandling(exceptionHandling -> {
+					.anyRequest()
+					.permitAll();
+		});
+		/*
+		.exceptionHandling(exceptionHandling -> {
 //			exceptionHandling.accessDeniedPage("/WEB-INF/views/errors/403.jsp");
 			exceptionHandling.accessDeniedHandler(new AccessDeniedHandler() {
 
@@ -94,7 +97,7 @@ public class SecurityConfig {
 
 			});
 		});
-
+		*/
 		return http.build();
 	}
 
