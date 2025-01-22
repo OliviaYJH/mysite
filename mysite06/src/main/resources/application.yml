@@ -19,10 +19,12 @@ spring:
       proxy-target-class: true
 
    # mvc
-   #mvc:
-    #  view:
-     #    prefix: /WEB-INF/views/
-      #   suffix: .jsp
+   mvc:
+      static-path-pattern: /assets/**
+
+   web:
+      resources: 
+         static-locations: [classpath:assets/, file:/Users/yujunghyun/Documents/poscodx/mysite-uploads/]
 
    servlet:
       multipart: 
@@ -57,3 +59,7 @@ server:
       #encoding: 
        #  charset: utf-8
         # enabled: true 
+
+# logging
+logging:
+   config: classpath:logback.xml

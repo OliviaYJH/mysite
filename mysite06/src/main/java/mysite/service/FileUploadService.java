@@ -14,14 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-@PropertySource("classpath:mysite/config/web/fileupload.properties")
+@PropertySource("classpath:config/fileupload.properties")
 public class FileUploadService {
 	@Autowired
 	private Environment env;
 	
-//	private static final String SAVE_PATH = "/Users/yujunghyun/Documents/poscodx/mysite-uploads";
-//	private static final String URL = "/assets/upload-images";
-
 	public String restore(MultipartFile file) throws RuntimeException {
 		try {
 			File uploadDirectory = new File(env.getProperty("fileupload.uploadLocation"));
