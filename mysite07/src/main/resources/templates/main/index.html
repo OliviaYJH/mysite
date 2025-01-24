@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>mysite</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link th:href="@{/assets/css/main.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div id="container">
+		<th:block th:include="includes/header"></th:block>
+		<div id="wrapper">
+			<div id="content">
+				<div id="site-introduction">
+					<img id="profile"
+						th:src="@{(${servletContext.getAttribute('siteVo').profile})}"
+						style="width: 500px">
+					<p>
+						<th:block th:text="${#strings.replace(servletContext.getAttribute('siteVo').description, '\n', '<br>')}"></th:block>
+						<br> <br> 
+						<a th:href="@{/guestbook}">방명록</a>에 글 남기기<br>
+					</p>
+				</div>
+			</div>
+		</div>
+		<th:block th:include="includes/navigation"></th:block>
+		<th:block th:include="includes/footer"></th:block>
+	</div>
+</body>
+</html>

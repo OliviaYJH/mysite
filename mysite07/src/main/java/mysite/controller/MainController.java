@@ -1,16 +1,22 @@
 package mysite.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import jakarta.servlet.ServletContext;
 import mysite.vo.UserVo;
 
 @Controller
 public class MainController {
+	@Autowired
+	private ServletContext servletContext;
+	
 	@RequestMapping({ "/", "/main" })
 	public String index(Model model) {
+		model.addAttribute("servletContext", servletContext);
 		return "main/index";
 	}
 

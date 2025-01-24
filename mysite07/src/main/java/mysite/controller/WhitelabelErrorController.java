@@ -15,12 +15,12 @@ public class WhitelabelErrorController implements ErrorController {
 	/* from GlobalExceptionHandler */
 	@RequestMapping("/404")
 	public String _404() {
-		return "errors/404";
+		return "views/errors/404";
 	}
 
 	@RequestMapping("/500")
 	public String _500() {
-		return "errors/500";
+		return "views/errors/500";
 	}
 
 	/* from White Label */
@@ -32,15 +32,15 @@ public class WhitelabelErrorController implements ErrorController {
 			int statusCode = Integer.parseInt(status.toString());
 
 			if (statusCode == HttpStatus.NOT_FOUND.value()) {
-				return "errors/404";
+				return "views/errors/404";
 			} else if (statusCode == HttpStatus.FORBIDDEN.value()) {
 				return "errors/403";
 			} 
 			else if (statusCode == HttpStatus.BAD_REQUEST.value()) {
-				return "errors/400";
+				return "views/errors/400";
 			}
 			else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-				return "errors/500";
+				return "views/errors/500";
 			}
 		}
 

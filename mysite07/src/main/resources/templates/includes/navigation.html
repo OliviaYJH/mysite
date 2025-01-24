@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<div id="navigation">
+	<!-- 모든 navigation 부분을 navigation.jsp로 만들고 import 시키기 -->
+	<ul>
+		<li><a th:href="@{/}" th:text="#{navigation.li.main}"></a></li>
+		<li><a th:href="@{/guestbook}" th:text="#{navigation.li.guestbook}"></a></li>
+		<li><a th:href="@{/board/${1 }}" th:text="#{navigation.li.board}"></a></li>
+		<li><a th:href="@{/gallery}" th:text="#{navigation.li.gallery}"></a></li>
+	</ul>
+</div>
